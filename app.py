@@ -13,14 +13,14 @@ mail = Mail (app)
 
 app.config ['MAIL_SERVER']='smtp.gmail.com'
 app.config ['MAIL_PORT'] = 465
-app.config ['MAIL_USERNAME'] = 'arunkumarnv2002@gmail.com'
-app.config ['MAIL_PASSWORD'] = 'bgxx ogic axfp ezfx'
+app.config ['MAIL_USERNAME'] = 'arunkumarnv@gmail.com'# your gmail
+app.config ['MAIL_PASSWORD'] = 'b'# your password
 app.config ['MAIL_USE_TLS'] = False
 app.config ['MAIL_USE_SSL'] = True
 
 mail = Mail (app)
-#c_otp = randint(1000, 9999)
-c_otp=4343
+c_otp = randint(1000, 9999)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -94,7 +94,7 @@ def register():
 
         new_user = User(name=name,email=gemail, phone=phone, address=address,password=password,role=role)
 
-        msg = Message(' verification mail by Arun', sender='arunkumarnv2002@gmail.com', recipients=[gemail])
+        msg = Message(' verification mail by Arun', sender='arunkumarnv@gmail.com', recipients=[gemail])
         msg.body = 'Hello this message has been sent to verifying your email ' + gemail + ' please enter the otp in webpage : ' + str(c_otp)
         mail.send(msg)
         print(c_otp)
