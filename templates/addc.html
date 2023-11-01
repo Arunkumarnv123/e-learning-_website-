@@ -1,0 +1,134 @@
+{%  extends 'base.html' %}
+{%  include 'header.html' %}
+
+{% block title %} Home {% endblock %}
+{%  block body %}
+<div class="container " style="background:mediumpurple">
+<div class="row">
+    <div class="col md-12">
+        <div class="jumbotron p-3  " >
+            <h2> Manage <b>Course</b><button class="btn btn-success float-end " type="button"
+            data-toggle="modal" data-target="#mymodal">Add New Course</button> </h2>
+
+            {%  with messages= get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                    <div class="float-end">
+                    <button type="button" class="close " data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true" >X</span>
+                    </button>
+                        </div>
+                    {{ message }}
+                    </div>
+
+
+                {% endfor %}
+
+                {%  endif %}
+            {% endwith %}
+
+            <table class="table table-hover table-dark ">
+                <tr class="col-3">
+                    <th >ID</th>
+                    <th >Course Name</th>
+                    <th >Instruct</th>
+                    <th >Content</th>
+                    <th >Action</th>
+
+                </tr>
+
+                {% for row in course %}
+
+
+                <tr class="col-3">
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.instructor }}</td>
+                    <td>{{ row.content }}</td>
+
+                    <td>
+                        <a href="/update/{{ row.id }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{ row.id }}">Edit</a>
+                        <a href="/delete/{{ row.id }}" class="btn btn-danger btn-xs" onclick="return confirm('Aru You sure To Delete the Course ?')"> Delete</a>
+                    </td>
+                </tr>
+
+
+                    <!-- model edit id  -->
+
+                <div id="modaledit{{ row.id }}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update Information</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ url_for('updatec') }}" method="POST">
+                                <div class="form-group">
+                                    <label> Course Name : </label>
+                                    <input type="hidden" name="id" value="{{ row.id }}">
+                                    <input type="text" class="form-control" name="name" value="{{ row.name}}">
+
+                                </div>
+                                <div class="form-group">
+                                    <label> Instructor: </label>
+                                    <input type="text" class="form-control" name="instructor" value="{{ row.instructor}}">
+
+                                </div>
+                                <div class="form-group">
+                                    <label> Content: </label>
+
+                                    <textarea rows="20" cols="14"class="form-control" name="phone" value="{{ row.content }}">{{ row.content }}</textarea>
+
+                                </div>
+
+                                <div class="form-group">
+                                   <button class="btn btn-primary" type="submit"> Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                {%  endfor %}
+            </table>
+        </div>
+        <div id="mymodal" class="modal fade " role="dialog">
+            <div class="modal-dialog ">
+                <div class="modal-content p-3">
+                    <div class="modal-header">
+                        <h4 class="model-title">Add Course</h4>
+
+                    </div>
+                    <div class="model-body ">
+                        <form action="{{ url_for('insert') }}" method="POST">
+                            <div class="form-group">
+                                <label>Name:</label>
+                                <input type="text" class="form-control" name="name" required="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Instructor:</label>
+                                <input type="text" class="form-control" name="email" required="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Content:</label>
+                                <input type="text" class="form-control" name="phone" required="1">
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit" > Add Course</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+ {%  endblock %}
